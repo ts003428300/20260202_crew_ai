@@ -1,0 +1,28 @@
+project:
+  name: "CrewAI-Debate-System"
+  description: "A multi-agent debate system (Proponent vs Opponent vs Judge) using CrewAI and Gemini 3.0 Flash."
+  
+  context: |
+    ## 技術堆疊 (Tech Stack)
+    - **語言環境**: Python 3.10+
+    - **核心框架**: 
+      - `crewai`: 用於建構 Agent 和 Task。
+      - `langchain-google-genai`: 用於連接 Gemini 模型。
+    - **LLM 模型**: 
+      - 必須強制使用 **Gemini 3.0 Flash** (`gemini-3.0-flash`)。
+      - 這是為了確保低成本且具備高邏輯推理能力。
+
+    ## 系統架構 (Architecture)
+    - **設定檔分離**: Agents 和 Tasks 的定義必須使用 YAML 格式，存放在 `src/config/agents.yaml` 和 `src/config/tasks.yaml`。
+    - **程式碼結構**: 主程式邏輯位於 `src/main.py`。
+    - **語言設定**: 所有的 Agent 思考過程、對話輸出、System Prompt 預設皆為 **繁體中文 (Traditional Chinese)**。
+
+    ## 核心業務邏輯 (Business Logic)
+    1. **使用者輸入**: 接受「辯論題目 (Topic)」與「回合數 (Round Count)」。
+    2. **動態流程**: 
+       - 系統必須根據回合數 (N) 動態生成 Task 列表。
+       - 順序：正方發言 -> 反方反駁 -> (重複 N 次) -> 裁判總結。
+    3. **角色定義**:
+       - **Proponent (正方)**: 激進、邏輯清晰，堅定支持題目立場。
+       - **Opponent (反方)**: 批判性強，專門針對正方觀點找漏洞。
+       - **Judge (裁判)**: 絕對中立，負責分析雙方攻防，給出勝負與理由。
